@@ -1,0 +1,1067 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Buenosaires 21-Pax Anniversary</title>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #f4a435;
+    --gold-light: #fdf0d8;
+    --gold-dark: #c97f1a;
+    --coral: #e8604c;
+    --coral-light: #fcecea;
+    --bg: #1a1a2e;
+    --bg2: #16213e;
+    --bg3: #0f3460;
+    --surface: #1e2a45;
+    --surface2: #263554;
+    --text: #fdf6e3;
+    --text-muted: #a8b4cc;
+    --green: #4caf7d;
+    --green-light: #1a3d2e;
+    --bamboo: #6b8f5e;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    max-width: 430px;
+    margin: 0 auto;
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  /* HEADER */
+  .header {
+    background: linear-gradient(135deg, var(--bg2) 0%, var(--bg3) 100%);
+    padding: 20px 20px 16px;
+    border-bottom: 1px solid rgba(244,164,53,0.2);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .header-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+  .header-title { font-family: 'Pacifico', cursive; font-size: 22px; color: var(--gold); line-height: 1.2; }
+  .header-sub { font-size: 11px; color: var(--text-muted); letter-spacing: 0.5px; text-transform: uppercase; margin-top: 2px; }
+  .header-badge {
+    background: var(--gold); color: #1a1a2e;
+    font-size: 11px; font-weight: 600;
+    padding: 4px 10px; border-radius: 20px;
+    white-space: nowrap;
+  }
+  .progress-bar-wrap { background: rgba(255,255,255,0.1); border-radius: 10px; height: 6px; }
+  .progress-bar-fill {
+    background: linear-gradient(90deg, var(--gold), var(--coral));
+    height: 6px; border-radius: 10px;
+    transition: width 0.4s ease;
+  }
+  .progress-label { font-size: 11px; color: var(--text-muted); margin-top: 5px; text-align: right; }
+
+  /* TABS */
+  .tab-bar {
+    display: flex;
+    background: var(--bg2);
+    border-bottom: 1px solid rgba(244,164,53,0.15);
+    overflow-x: auto;
+    scrollbar-width: none;
+    position: sticky;
+    top: 100px;
+    z-index: 99;
+  }
+  .tab-bar::-webkit-scrollbar { display: none; }
+  .tab-btn {
+    flex: 1;
+    min-width: 64px;
+    padding: 10px 4px 8px;
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    cursor: pointer;
+    display: flex; flex-direction: column; align-items: center; gap: 3px;
+    transition: color 0.2s;
+    border-bottom: 2px solid transparent;
+  }
+  .tab-btn .tab-icon { font-size: 20px; }
+  .tab-btn.active { color: var(--gold); border-bottom-color: var(--gold); }
+
+  /* CONTENT */
+  .tab-content { display: none; padding: 16px; padding-bottom: 20px; }
+  .tab-content.active { display: block; }
+
+  /* SECTION CARDS */
+  .section-card {
+    background: var(--surface);
+    border: 1px solid rgba(244,164,53,0.15);
+    border-radius: 14px;
+    margin-bottom: 12px;
+    overflow: hidden;
+  }
+  .section-header {
+    padding: 14px 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    user-select: none;
+    position: relative;
+  }
+  .section-icon {
+    width: 38px; height: 38px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; flex-shrink: 0;
+  }
+  .section-icon.gold { background: rgba(244,164,53,0.15); }
+  .section-icon.coral { background: rgba(232,96,76,0.15); }
+  .section-icon.green { background: rgba(76,175,125,0.15); }
+  .section-icon.blue { background: rgba(56,142,210,0.15); }
+  .section-icon.purple { background: rgba(156,106,222,0.15); }
+  .section-title { font-size: 14px; font-weight: 600; color: var(--text); flex: 1; }
+  .section-meta { font-size: 11px; color: var(--text-muted); margin-top: 1px; }
+  .section-counter {
+    background: var(--surface2);
+    border-radius: 20px;
+    padding: 3px 8px;
+    font-size: 11px;
+    color: var(--text-muted);
+    white-space: nowrap;
+  }
+  .section-counter.done { background: var(--green-light); color: var(--green); }
+  .chevron { font-size: 14px; color: var(--text-muted); transition: transform 0.25s; }
+  .section-card.open .chevron { transform: rotate(180deg); }
+  .section-body { display: none; border-top: 1px solid rgba(255,255,255,0.06); }
+  .section-card.open .section-body { display: block; }
+
+  /* CHECKLIST ITEMS */
+  .check-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 11px 16px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .check-item:last-child { border-bottom: none; }
+  .check-item:active { background: rgba(255,255,255,0.04); }
+  .check-box {
+    width: 22px; height: 22px; border-radius: 6px;
+    border: 1.5px solid rgba(244,164,53,0.4);
+    flex-shrink: 0; margin-top: 1px;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s;
+  }
+  .check-box.checked {
+    background: var(--gold);
+    border-color: var(--gold);
+  }
+  .check-tick { font-size: 13px; color: #1a1a2e; display: none; font-weight: 700; }
+  .check-box.checked .check-tick { display: block; }
+  .check-label { font-size: 13px; color: var(--text); line-height: 1.5; flex: 1; transition: all 0.2s; }
+  .check-label.checked { color: var(--text-muted); text-decoration: line-through; }
+  .check-tag {
+    font-size: 10px; padding: 2px 7px; border-radius: 10px;
+    font-weight: 500; white-space: nowrap; margin-top: 3px;
+    display: inline-block;
+  }
+  .tag-fresh { background: rgba(76,175,125,0.15); color: #4caf7d; }
+  .tag-pantry { background: rgba(244,164,53,0.15); color: var(--gold); }
+  .tag-catering { background: rgba(232,96,76,0.15); color: var(--coral); }
+  .tag-gear { background: rgba(56,142,210,0.15); color: #5ba4e5; }
+  .tag-cash { background: rgba(156,106,222,0.15); color: #b07de8; }
+
+  /* CASH SECTION */
+  .cash-card {
+    background: var(--surface);
+    border: 1px solid rgba(244,164,53,0.2);
+    border-radius: 14px;
+    padding: 18px;
+    margin-bottom: 12px;
+  }
+  .cash-card-title { font-size: 13px; color: var(--text-muted); margin-bottom: 6px; }
+  .cash-amount { font-family: 'Pacifico', cursive; font-size: 28px; color: var(--gold); }
+  .cash-purpose { font-size: 12px; color: var(--text-muted); margin-top: 4px; line-height: 1.4; }
+  .cash-divider { height: 1px; background: rgba(255,255,255,0.07); margin: 14px 0; }
+  .cash-total-row { display: flex; justify-content: space-between; align-items: center; }
+  .cash-total-label { font-size: 13px; color: var(--text-muted); }
+  .cash-total-amount { font-family: 'Pacifico', cursive; font-size: 22px; color: var(--coral); }
+
+  /* PROGRESS TAB */
+  .progress-ring-wrap {
+    display: flex; flex-direction: column; align-items: center;
+    padding: 20px 16px;
+  }
+  .ring-container { position: relative; width: 140px; height: 140px; margin-bottom: 16px; }
+  .ring-container svg { transform: rotate(-90deg); }
+  .ring-text {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    text-align: center;
+  }
+  .ring-pct { font-family: 'Pacifico', cursive; font-size: 30px; color: var(--gold); line-height: 1; }
+  .ring-label { font-size: 11px; color: var(--text-muted); }
+  .progress-section-list { width: 100%; }
+  .prog-row {
+    background: var(--surface);
+    border-radius: 10px;
+    padding: 12px 14px;
+    margin-bottom: 8px;
+    border: 1px solid rgba(255,255,255,0.05);
+  }
+  .prog-row-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 7px; }
+  .prog-row-name { font-size: 13px; font-weight: 500; }
+  .prog-row-count { font-size: 11px; color: var(--text-muted); }
+  .prog-mini-bar { background: rgba(255,255,255,0.08); border-radius: 4px; height: 5px; }
+  .prog-mini-fill { height: 5px; border-radius: 4px; background: linear-gradient(90deg, var(--gold), var(--coral)); transition: width 0.4s; }
+
+  /* RECIPE SECTION */
+  .recipe-card {
+    background: var(--surface);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 14px;
+    margin-bottom: 10px;
+    overflow: hidden;
+  }
+  .recipe-header {
+    padding: 13px 16px;
+    display: flex; align-items: center; gap: 10px;
+    cursor: pointer;
+  }
+  .recipe-emoji { font-size: 22px; }
+  .recipe-name { font-size: 14px; font-weight: 600; flex: 1; }
+  .recipe-body { display: none; border-top: 1px solid rgba(255,255,255,0.06); padding: 12px 16px; }
+  .recipe-card.open .recipe-body { display: block; }
+  .recipe-card.open .chevron { transform: rotate(180deg); }
+  .ingredient-item {
+    display: flex; align-items: center; gap: 8px;
+    padding: 6px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    font-size: 12px; color: var(--text-muted);
+  }
+  .ingredient-item:last-child { border-bottom: none; }
+  .ingredient-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--gold); flex-shrink: 0; }
+  .ingredient-name { flex: 1; }
+  .ingredient-qty { color: var(--gold); font-weight: 500; }
+
+  /* CAMP TAB */
+  .camp-section-label {
+    font-size: 11px; text-transform: uppercase; letter-spacing: 1px;
+    color: var(--text-muted); margin: 16px 0 8px; font-weight: 500;
+  }
+
+  /* FLOATING BANNER */
+  .float-banner {
+    background: rgba(26,26,46,0.95);
+    border: 1px solid rgba(244,164,53,0.3);
+    border-radius: 20px;
+    padding: 8px 16px;
+    position: fixed; bottom: 76px; left: 50%; transform: translateX(-50%);
+    font-size: 12px; color: var(--text-muted);
+    z-index: 98;
+    white-space: nowrap;
+    backdrop-filter: blur(10px);
+    display: none;
+  }
+  .float-banner span { color: var(--gold); font-weight: 600; }
+
+  /* EMPTY DONE STATE */
+  .all-done {
+    text-align: center; padding: 30px 20px;
+    display: none;
+  }
+  .all-done-emoji { font-size: 48px; }
+  .all-done-text { font-family: 'Pacifico', cursive; color: var(--gold); font-size: 20px; margin-top: 10px; }
+  .all-done-sub { font-size: 13px; color: var(--text-muted); margin-top: 6px; }
+
+  /* BOTTOM NAV */
+  .bottom-nav {
+    position: fixed;
+    bottom: 0; left: 50%; transform: translateX(-50%);
+    width: 100%; max-width: 430px;
+    background: var(--bg2);
+    border-top: 1px solid rgba(244,164,53,0.2);
+    display: flex;
+    z-index: 200;
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  /* CELEBRATION PARTICLE */
+  @keyframes float-up { 0%{transform:translateY(0) scale(1);opacity:1} 100%{transform:translateY(-80px) scale(0.5);opacity:0} }
+  .particle { position:fixed; pointer-events:none; font-size:20px; animation: float-up 1s ease-out forwards; z-index:999; }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-top">
+    <div>
+      <div class="header-title">Buenosaires 🏖️</div>
+      <div class="header-sub">21-Pax Anniversary Trip Master Plan</div>
+    </div>
+    <div class="header-badge" id="headerBadge">0 done</div>
+  </div>
+  <div class="progress-bar-wrap">
+    <div class="progress-bar-fill" id="mainProgress" style="width:0%"></div>
+  </div>
+  <div class="progress-label" id="progressLabel">0 of 0 items packed</div>
+</div>
+
+<!-- TABS -->
+<div class="tab-bar">
+  <button class="tab-btn active" onclick="switchTab('pantry',this)">
+    <span class="tab-icon">🛒</span><span>Pantry</span>
+  </button>
+  <button class="tab-btn" onclick="switchTab('kitchen',this)">
+    <span class="tab-icon">🍽️</span><span>Kitchen</span>
+  </button>
+  <button class="tab-btn" onclick="switchTab('camp',this)">
+    <span class="tab-icon">🏕️</span><span>Camp</span>
+  </button>
+  <button class="tab-btn" onclick="switchTab('cash',this)">
+    <span class="tab-icon">💸</span><span>Cash</span>
+  </button>
+  <button class="tab-btn" onclick="switchTab('progress',this)">
+    <span class="tab-icon">✅</span><span>Progress</span>
+  </button>
+</div>
+
+<!-- ==================== PANTRY TAB ==================== -->
+<div class="tab-content active" id="tab-pantry">
+
+  <!-- CATERING -->
+  <div class="section-card" id="sec-catering">
+    <div class="section-header" onclick="toggleSection('sec-catering')">
+      <div class="section-icon coral">🍱</div>
+      <div style="flex:1">
+        <div class="section-title">Catering Provider</div>
+        <div class="section-meta">Pre-order & collect warm</div>
+      </div>
+      <div class="section-counter" id="count-catering">0/5</div>
+      <span class="chevron">▾</span>
+    </div>
+    <div class="section-body">
+      <div class="check-item" onclick="toggle(this,'catering')">
+        <div class="check-box"><span class="check-tick">✓</span></div>
+        <div>
+          <div class="check-label">1 Tray Sweet Filipino Spaghetti <span style="color:var(--text-muted);font-size:11px">(Medium)</span></div>
+          <span class="check-tag tag-catering">Catering</span>
+        </div>
+      </div>
+      <div class="check-item" onclick="toggle(this,'catering')">
+        <div class="check-box"><span class="check-tick">✓</span></div>
+        <div>
+          <div class="check-label">1 Tray Crispy Lumpiang Shanghai <span style="color:var(--text-muted);font-size:11px">(Medium)</span></div>
+          <span class="check-tag tag-catering">Catering</span>
+        </div>
+      </div>
+      <div class="check-item" onclick="toggle(this,'catering')">
+        <div class="check-box"><span class="check-tick">✓</span></div>
+        <div>
+          <div class="check-label">1 Tray Pancit Palabok <span style="color:var(--text-muted);font-size:11px">(Medium)</span></div>
+          <span class="check-tag tag-catering">Catering</span>
+        </div>
+      </div>
+      <div class="check-item" onclick="toggle(this,'catering')">
+        <div class="check-box"><span class="check-tick">✓</span></div>
+        <div>
+          <div class="check-label">1 Tray Native Biko <span style="color:var(--text-muted);font-size:11px">(Large)</span></div>
+          <span class="check-tag tag-catering">Catering</span>
+        </div>
+      </div>
+      <div class="check-item" onclick="toggle(this,'catering')">
+        <div class="check-box"><span class="check-tick">✓</span></div>
+        <div>
+          <div class="check-label">1 Tray Chicken Hamonado <span style="color:var(--text-muted);font-size:11px">(Medium)</span></div>
+          <span class="check-tag tag-catering">Catering</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WET MARKET -->
+  <div class="section-card" id="sec-wetmarket">
+    <div class="section-header" onclick="toggleSection('sec-wetmarket')">
+      <div class="section-icon green">🥩</div>
+      <div style="flex:1">
+        <div class="section-title">Wet Market</div>
+        <div class="section-meta">Fresh meats, seafood & produce</div>
+      </div>
+      <div class="section-counter" id="count-wetmarket">0/11</div>
+      <span class="chevron">▾</span>
+    </div>
+    <div class="section-body">
+      <div class="check-item" onclick="toggle(this,'wetmarket')">
+        <div class="check-box"><span class="check-tick">✓</span></div>
+        <div><div class="check-label">Pork BBQ cut — <strong style="color:var(--gold)">2 kg</strong></div><span class="check-tag tag-fresh">Fresh</span></div>
+      </div>
+      <div class="check-item" onclick="toggle(this,'wetmarket')">
+        <div class="check-box"><span class="check-tick">✓</span></div>
+        <div><div class="check-label">Pork chunks & liver (Menudo) — <strong style="color:var(--gold)">2 kg</strong></div><span class="check-tag tag-fresh">Fresh</span></div>
+      </div>
+      <div class="check-item" onclick="toggle(this,'wetmarket')">
+        <div class="check-box"><span class="check-tick">✓</span></div>
+        <div><div class="check-label">Chicken Thighs — <strong style="color:var(--gold)">2 kg</strong></div><span class="check-tag tag-fresh">Fresh</span></div>
+      </div>
+      <div class="check-item" onclick="toggle(this,'wetmarket')">
+        <div class="check-box"><span class="check-tick">✓</span></div>
+        <div><div class="check-label">Chicken Wings — <strong style="color:var(--gold)">2 kg</strong></div><span class="check-tag tag-fresh">Fresh</span></div>
+      </div>
+      <div class="check-item" onclick="toggle(this,'wetmarket')">
+        <div class="check-box"><span class="check-tick">✓</span></div>
+        <div><div class="check-label">Chicken Isaw (pre-cleaned & skewered) — <strong style="color:var(--gold)">2 kg</strong></div><span class="check-tag tag-fresh">Fresh</span></div>
+      </div>
+      <div class="check-item" onclick="toggle(this,'wetmarket')">
+        <div class="check-box"><span class="check-tick">✓</span></div>
+        <div><div class="check-label">Tilapia — <strong style="color:var(--gold)">1 kg</strong></div><span class="check-tag tag-fresh">Fresh</span></div>
+      </div>
+      <div class="check-item" onclick="toggle(this,'wetmarket')">
+        <div class="check-box"><span class="check-tick">✓</span></div>
+        <div><div class="check-label">Bangus — <strong style="color:var(--gold)">1 kg</strong></div><span class="check-tag tag-fresh">Fresh</span></div>
+      </div>
+      <div class="check-item" onclick="toggle(this,'wetmarket')">
+        <div class="check-box"><span class="check-tick">✓</span></div>
+        <div><div class="check-label">Fresh Buko Nuts — <strong style="color:var(--gold)">15 pcs</strong></div><span class="check-tag tag-fresh">Fresh</span></div>
+      </div>
+      <div class="check-item" onclick="toggle(this,'wetmarket')">
+        <div class="check-box"><span class="check-tick">✓</span></div>
+        <div><div class="check-label">Aromatics & Veggies <span style="color:var(--text-muted);font-size:11px">(potatoes, carrots, bell peppers, onions, garlic, ginger, tomatoes, calamansi)</span></div><span class="check-tag tag-fresh">Fresh</span></div>
+      </div>
+      <div class="check-item" onclick="toggle(this,'wetmarket')">
+        <div class="check-box"><span class="check-tick">✓</span></div>
+        <div><div class="check-label">Whole Watermelon — <strong style="color:var(--gold)">1 pc</strong></div><span class="check-tag tag-fresh">Fresh</span></div>
+      </div>
+      <div class="check-item" onclick="toggle(this,'wetmarket')">
+        <div class="check-box"><span class="check-tick">✓</span></div>
+        <div><div class="check-label">Ripe Mangoes — <strong style="color:var(--gold)">2 kg</strong></div><span class="check-tag tag-fresh">Fresh</span></div>
+      </div>
+      <div class="check-item" onclick="toggle(this,'wetmarket')">
+        <div class="check-box"><span class="check-tick">✓</span></div>
+        <div><div class="check-label">Sweet Pineapple or Papaya — <strong style="color:var(--gold)">1 pc</strong></div><span class="check-tag tag-fresh">Fresh</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GROCERY -->
+  <div class="section-card" id="sec-grocery">
+    <div class="section-header" onclick="toggleSection('sec-grocery')">
+      <div class="section-icon gold">🏪</div>
+      <div style="flex:1">
+        <div class="section-title">Grocery Supermarket</div>
+        <div class="section-meta">Pantry, disposables & sanitation</div>
+      </div>
+      <div class="section-counter" id="count-grocery">0/9</div>
+      <span class="chevron">▾</span>
+    </div>
+    <div class="section-body">
+      <div class="check-item" onclick="toggle(this,'grocery')">
+        <div class="check-box"><span class="check-tick">✓</span></div>
+        <div><div class="check-label">Coffee Station — <strong style="color:var(--gold)">12 sachets</strong> Twin Pack 3-in-1</div><span class="check-tag tag-pantry">Pantry</span></div>
+      </div>
+      <div class="check-item" onclick="toggle(this,'grocery')">
+        <div class="check-box"><span class="check-tick">✓</span></div>
+        <div><div class="check-label">Sliced Loaf Bread — <strong style="color:var(--gold)">2 packs</strong></div><span class="check-tag tag-pantry">Pantry</span></div>
+      </div>
+      <div class="check-item" onclick="toggle(this,'grocery')">
+        <div class="check-box"><span class="check-tick">✓</span></div>
+        <div><div class="check-label">Peanut Butter — <strong style="color:var(--gold)">1 jar</strong></div><span class="check-tag tag-pantry">Pantry</span></div>
+      </div>
+      <div class="check-item" onclick="toggle(this,'grocery')">
+        <div class="check-box"><span class="check-tick">✓</span></div>
+        <div><div class="check-label">Dairy & Sweeteners <span style="color:var(--text-muted);font-size:11px">(white sugar, brown sugar, condensed milk, evap milk, all-purpose cream)</span></div><span class="check-tag tag-pantry">Pantry</span></div>
+      </div>
+      <div class="check-item" onclick="toggle(this,'grocery')">
+        <div class="check-box"><span class="check-tick">✓</span></div>
+        <div><div class="check-label">Salad Mix-ins — Kaong & Nata de Coco</div><span class="check-tag tag-pantry">Pantry</span></div>
+      </div>
+      <div class="check-item" onclick="toggle(this,'grocery')">
+        <div class="check-box"><span class="check-tick">✓</span></div>
+        <div><div class="check-label">Condiments & Pantry <span style="color:var(--text-muted);font-size:11px">(tomato sauce, paste, soy sauce, vinegar, banana ketchup, oil, pepper, raisins)</span></div><span class="check-tag tag-pantry">Pantry</span></div>
+      </div>
+      <div class="check-item" onclick="toggle(this,'grocery')">
+        <div class="check-box"><span class="check-tick">✓</span></div>
+        <div><div class="check-label">Jumbo Hotdogs — <strong style="color:var(--gold)">2 packs</strong></div><span class="check-tag tag-pantry">Pantry</span></div>
+      </div>
+      <div class="check-item" onclick="toggle(this,'grocery')">
+        <div class="check-box"><span class="check-tick">✓</span></div>
+        <div><div class="check-label">Disposables <span style="color:var(--text-muted);font-size:11px">(paper plates, cups, utensils, trash bags, foil, bamboo skewers)</span></div><span class="check-tag tag-pantry">Pantry</span></div>
+      </div>
+      <div class="check-item" onclick="toggle(this,'grocery')">
+        <div class="check-box"><span class="check-tick">✓</span></div>
+        <div><div class="check-label">Environmental Shield — <strong style="color:var(--gold)">3 boxes</strong> katol, matches, insect repellent</div><span class="check-tag tag-pantry">Pantry</span></div>
+      </div>
+      <div class="check-item" onclick="toggle(this,'grocery')">
+        <div class="check-box"><span class="check-tick">✓</span></div>
+        <div><div class="check-label">Sanitation — Dishwashing liquid & sponges</div><span class="check-tag tag-pantry">Pantry</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SPECIALTY VENDORS -->
+  <div class="section-card" id="sec-specialty">
+    <div class="section-header" onclick="toggleSection('sec-specialty')">
+      <div class="section-icon purple">🎁</div>
+      <div style="flex:1">
+        <div class="section-title">Specialty Vendors</div>
+        <div class="section-meta">Custom gifts & ice</div>
+      </div>
+      <div class="section-counter" id="count-specialty">0/4</div>
+      <span class="chevron">▾</span>
+    </div>
+    <div class="section-body">
+      <div class="check-item" onclick="toggle(this,'specialty')">
+        <div class="check-box"><span class="check-tick">✓</span></div>
+        <div><div class="check-label">Custom Anniversary Cake Shell <span style="color:var(--text-muted);font-size:11px">(rigged for ₱4,000 cash pull)</span></div><span class="check-tag tag-cash">Gift</span></div>
+      </div>
+      <div class="check-item" onclick="toggle(this,'specialty')">
+        <div class="check-box"><span class="check-tick">✓</span></div>
+        <div><div class="check-label">Premium Floral Money Bouquet <span style="color:var(--text-muted);font-size:11px">(engineered with ₱5,000 cash inserts)</span></div><span class="check-tag tag-cash">Gift</span></div>
+      </div>
+      <div class="check-item" onclick="toggle(this,'specialty')">
+        <div class="check-box"><span class="check-tick">✓</span></div>
+        <div><div class="check-label">Premium Genuine Leather Wallet</div><span class="check-tag tag-cash">Gift</span></div>
+      </div>
+      <div class="check-item" onclick="toggle(this,'specialty')">
+        <div class="check-box"><span class="check-tick">✓</span></div>
+        <div><div class="check-label">Commercial Cooling Ice — <strong style="color:var(--gold)">4 blocks</strong></div><span class="check-tag tag-gear">Supply</span></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ==================== KITCHEN TAB ==================== -->
+<div class="tab-content" id="tab-kitchen">
+
+  <!-- LIVE GRILL -->
+  <div style="font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--text-muted);margin-bottom:8px;font-weight:500;">🔥 Live Beach Kitchen</div>
+
+  <div class="recipe-card" id="rec-bbq">
+    <div class="recipe-header" onclick="toggleRecipe('rec-bbq')">
+      <span class="recipe-emoji">🥩</span>
+      <div class="recipe-name">Pork BBQ & Grilled Baboy</div>
+      <span class="chevron">▾</span>
+    </div>
+    <div class="recipe-body">
+      <div class="ingredient-item"><div class="ingredient-dot"></div><div class="ingredient-name">Pork BBQ cut</div><div class="ingredient-qty">2 kg</div></div>
+      <div class="ingredient-item"><div class="ingredient-dot"></div><div class="ingredient-name">Soy sauce</div><div class="ingredient-qty">✓</div></div>
+      <div class="ingredient-item"><div class="ingredient-dot"></div><div class="ingredient-name">Calamansi</div><div class="ingredient-qty">✓</div></div>
+      <div class="ingredient-item"><div class="ingredient-dot"></div><div class="ingredient-name">Garlic</div><div class="ingredient-qty">✓</div></div>
+      <div class="ingredient-item"><div class="ingredient-dot"></div><div class="ingredient-name">Brown sugar</div><div class="ingredient-qty">✓</div></div>
+      <div class="ingredient-item"><div class="ingredient-dot"></div><div class="ingredient-name">Banana ketchup</div><div class="ingredient-qty">✓</div></div>
+      <div class="ingredient-item"><div class="ingredient-dot"></div><div class="ingredient-name">Bamboo skewers</div><div class="ingredient-qty">✓</div></div>
+    </div>
+  </div>
+
+  <div class="recipe-card" id="rec-chicken">
+    <div class="recipe-header" onclick="toggleRecipe('rec-chicken')">
+      <span class="recipe-emoji">🍗</span>
+      <div class="recipe-name">Chicken Ihaw</div>
+      <span class="chevron">▾</span>
+    </div>
+    <div class="recipe-body">
+      <div class="ingredient-item"><div class="ingredient-dot"></div><div class="ingredient-name">Chicken Thighs</div><div class="ingredient-qty">2 kg</div></div>
+      <div class="ingredient-item"><div class="ingredient-dot"></div><div class="ingredient-name">Chicken Wings</div><div class="ingredient-qty">2 kg</div></div>
+      <div class="ingredient-item"><div class="ingredient-dot"></div><div class="ingredient-name">Soy sauce</div><div class="ingredient-qty">✓</div></div>
+      <div class="ingredient-item"><div class="ingredient-dot"></div><div class="ingredient-name">Garlic</div><div class="ingredient-qty">✓</div></div>
+      <div class="ingredient-item"><div class="ingredient-dot"></div><div class="ingredient-name">Calamansi</div><div class="ingredient-qty">✓</div></div>
+      <div class="ingredient-item"><div class="ingredient-dot"></div><div class="ingredient-name">Black pepper</div><div class="ingredient-qty">✓</div></div>
+    </div>
+  </div>
+
+  <div class="recipe-card" id="rec-fish">
+    <div class="recipe-header" onclick="toggleRecipe('rec-fish')">
+      <span class="recipe-emoji">🐟</span>
+      <div class="recipe-name">Grilled Fish</div>
+      <span class="chevron">▾</span>
+    </div>
+    <div class="recipe-body">
+      <div class="ingredient-item"><div class="ingredient-dot"></div><div class="ingredient-name">Tilapia</div><div class="ingredient-qty">1 kg</div></div>
+      <div class="ingredient-item"><div class="ingredient-dot"></div><div class="ingredient-name">Bangus</div><div class="ingredient-qty">1 kg</div></div>
+      <div class="ingredient-item"><div class="ingredient-dot"></div><div class="ingredient-name">Ginger</div><div class="ingredient-qty">✓</div></div>
+      <div class="ingredient-item"><div class="ingredient-dot"></div><div class="ingredient-name">Onions</div><div class="ingredient-qty">✓</div></div>
+      <div class="ingredient-item"><div class="ingredient-dot"></div><div class="ingredient-name">Tomatoes</div><div class="ingredient-qty">✓</div></div>
+      <div class="ingredient-item"><div class="ingredient-dot"></div><div class="ingredient-name">Aluminum foil</div><div class="ingredient-qty">✓</div></div>
+    </div>
+  </div>
+
+  <div class="recipe-card" id="rec-isaw">
+    <div class="recipe-header" onclick="toggleRecipe('rec-isaw')">
+      <span class="recipe-emoji">🍢</span>
+      <div class="recipe-name">Chicken Isaw</div>
+      <span class="chevron">▾</span>
+    </div>
+    <div class="recipe-body">
+      <div class="ingredient-item"><div class="ingredient-dot"></div><div class="ingredient-name">Chicken Isaw (skewered)</div><div class="ingredient-qty">2 kg</div></div>
+      <div class="ingredient-item"><div class="ingredient-dot"></div><div class="ingredient-name">Vinegar</div><div class="ingredient-qty">✓</div></div>
+      <div class="ingredient-item"><div class="ingredient-dot"></div><div class="ingredient-name">Garlic</div><div class="ingredient-qty">✓</div></div>
+      <div class="ingredient-item"><div class="ingredient-dot"></div><div class="ingredient-name">Soy sauce</div><div class="ingredient-qty">✓</div></div>
+      <div class="ingredient-item"><div class="ingredient-dot"></div><div class="ingredient-name">Red chili (optional)</div><div class="ingredient-qty">—</div></div>
+    </div>
+  </div>
+
+  <div class="recipe-card" id="rec-menudo">
+    <div class="recipe-header" onclick="toggleRecipe('rec-menudo')">
+      <span class="recipe-emoji">🍲</span>
+      <div class="recipe-name">Pork Menudo</div>
+      <span class="chevron">▾</span>
+    </div>
+    <div class="recipe-body">
+      <div class="ingredient-item"><div class="ingredient-dot"></div><div class="ingredient-name">Pork chunks & liver</div><div class="ingredient-qty">2 kg</div></div>
+      <div class="ingredient-item"><div class="ingredient-dot"></div><div class="ingredient-name">Potatoes</div><div class="ingredient-qty">✓</div></div>
+      <div class="ingredient-item"><div class="ingredient-dot"></div><div class="ingredient-name">Carrots</div><div class="ingredient-qty">✓</div></div>
+      <div class="ingredient-item"><div class="ingredient-dot"></div><div class="ingredient-name">Bell peppers</div><div class="ingredient-qty">✓</div></div>
+      <div class="ingredient-item"><div class="ingredient-dot"></div><div class="ingredient-name">Raisins</div><div class="ingredient-qty">✓</div></div>
+      <div class="ingredient-item"><div class="ingredient-dot"></div><div class="ingredient-name">Tomato sauce + paste</div><div class="ingredient-qty">✓</div></div>
+      <div class="ingredient-item"><div class="ingredient-dot"></div><div class="ingredient-name">Garlic & Onion</div><div class="ingredient-qty">✓</div></div>
+    </div>
+  </div>
+
+  <div class="recipe-card" id="rec-hotdog">
+    <div class="recipe-header" onclick="toggleRecipe('rec-hotdog')">
+      <span class="recipe-emoji">🌭</span>
+      <div class="recipe-name">Beach Hotdogs</div>
+      <span class="chevron">▾</span>
+    </div>
+    <div class="recipe-body">
+      <div class="ingredient-item"><div class="ingredient-dot"></div><div class="ingredient-name">Jumbo hotdogs</div><div class="ingredient-qty">2 packs</div></div>
+      <div class="ingredient-item"><div class="ingredient-dot"></div><div class="ingredient-name">Bamboo skewers</div><div class="ingredient-qty">✓</div></div>
+    </div>
+  </div>
+
+  <div style="font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--text-muted);margin:16px 0 8px;font-weight:500;">☀️ Day 2 Breakfast Station</div>
+
+  <div class="recipe-card" id="rec-breakfast">
+    <div class="recipe-header" onclick="toggleRecipe('rec-breakfast')">
+      <span class="recipe-emoji">☕</span>
+      <div class="recipe-name">Morning Coffee & Bread</div>
+      <span class="chevron">▾</span>
+    </div>
+    <div class="recipe-body">
+      <div class="ingredient-item"><div class="ingredient-dot"></div><div class="ingredient-name">3-in-1 Coffee sachets</div><div class="ingredient-qty">12 pcs</div></div>
+      <div class="ingredient-item"><div class="ingredient-dot"></div><div class="ingredient-name">Sliced loaf bread</div><div class="ingredient-qty">2 packs</div></div>
+      <div class="ingredient-item"><div class="ingredient-dot"></div><div class="ingredient-name">Peanut butter</div><div class="ingredient-qty">1 jar</div></div>
+    </div>
+  </div>
+
+  <div style="font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--text-muted);margin:16px 0 8px;font-weight:500;">🥥 Desserts & Drinks</div>
+
+  <div class="recipe-card" id="rec-buko">
+    <div class="recipe-header" onclick="toggleRecipe('rec-buko')">
+      <span class="recipe-emoji">🥥</span>
+      <div class="recipe-name">Buko Juice & Buko Salad</div>
+      <span class="chevron">▾</span>
+    </div>
+    <div class="recipe-body">
+      <div class="ingredient-item"><div class="ingredient-dot"></div><div class="ingredient-name">Fresh Buko nuts (cracked)</div><div class="ingredient-qty">15 pcs</div></div>
+      <div class="ingredient-item"><div class="ingredient-dot"></div><div class="ingredient-name">Condensed milk</div><div class="ingredient-qty">✓</div></div>
+      <div class="ingredient-item"><div class="ingredient-dot"></div><div class="ingredient-name">Evaporated milk</div><div class="ingredient-qty">✓</div></div>
+      <div class="ingredient-item"><div class="ingredient-dot"></div><div class="ingredient-name">All-purpose cream</div><div class="ingredient-qty">✓</div></div>
+      <div class="ingredient-item"><div class="ingredient-dot"></div><div class="ingredient-name">Kaong</div><div class="ingredient-qty">✓</div></div>
+      <div class="ingredient-item"><div class="ingredient-dot"></div><div class="ingredient-name">Nata de coco</div><div class="ingredient-qty">✓</div></div>
+      <div class="ingredient-item"><div class="ingredient-dot"></div><div class="ingredient-name">White sugar</div><div class="ingredient-qty">✓</div></div>
+    </div>
+  </div>
+
+  <div class="recipe-card" id="rec-fruits">
+    <div class="recipe-header" onclick="toggleRecipe('rec-fruits')">
+      <span class="recipe-emoji">🍉</span>
+      <div class="recipe-name">Grand Fruit Platter</div>
+      <span class="chevron">▾</span>
+    </div>
+    <div class="recipe-body">
+      <div class="ingredient-item"><div class="ingredient-dot"></div><div class="ingredient-name">Whole Watermelon (sliced)</div><div class="ingredient-qty">1 pc</div></div>
+      <div class="ingredient-item"><div class="ingredient-dot"></div><div class="ingredient-name">Ripe Mangoes (sliced)</div><div class="ingredient-qty">2 kg</div></div>
+      <div class="ingredient-item"><div class="ingredient-dot"></div><div class="ingredient-name">Sweet Pineapple or Papaya</div><div class="ingredient-qty">1 pc</div></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ==================== CAMP TAB ==================== -->
+<div class="tab-content" id="tab-camp">
+
+  <div class="section-card" id="sec-culinary">
+    <div class="section-header" onclick="toggleSection('sec-culinary')">
+      <div class="section-icon gold">🔪</div>
+      <div style="flex:1">
+        <div class="section-title">Culinary Hardware</div>
+        <div class="section-meta">Grill, tools & cooling systems</div>
+      </div>
+      <div class="section-counter" id="count-culinary">0/10</div>
+      <span class="chevron">▾</span>
+    </div>
+    <div class="section-body">
+      <div class="check-item" onclick="toggle(this,'culinary')">
+        <div class="check-box"><span class="check-tick">✓</span></div>
+        <div><div class="check-label">Ice Box Alpha — <span style="color:var(--text-muted);font-size:11px">raw meat & seafood only</span></div><span class="check-tag tag-gear">Gear</span></div>
+      </div>
+      <div class="check-item" onclick="toggle(this,'culinary')">
+        <div class="check-box"><span class="check-tick">✓</span></div>
+        <div><div class="check-label">Ice Box Beta — <span style="color:var(--text-muted);font-size:11px">beverages, milk, chilled fruits</span></div><span class="check-tag tag-gear">Gear</span></div>
+      </div>
+      <div class="check-item" onclick="toggle(this,'culinary')">
+        <div class="check-box"><span class="check-tick">✓</span></div>
+        <div><div class="check-label">Heavy-Duty Portable Griller</div><span class="check-tag tag-gear">Gear</span></div>
+      </div>
+      <div class="check-item" onclick="toggle(this,'culinary')">
+        <div class="check-box"><span class="check-tick">✓</span></div>
+        <div><div class="check-label">Grill Mesh & Grates</div><span class="check-tag tag-gear">Gear</span></div>
+      </div>
+      <div class="check-item" onclick="toggle(this,'culinary')">
+        <div class="check-box"><span class="check-tick">✓</span></div>
+        <div><div class="check-label">Grill Accessories — Tongs, basting brushes, <strong style="color:var(--gold)">3 bags</strong> charcoal (uling)</div><span class="check-tag tag-gear">Gear</span></div>
+      </div>
+      <div class="check-item" onclick="toggle(this,'culinary')">
+        <div class="check-box"><span class="check-tick">✓</span></div>
+        <div><div class="check-label">Firestarter Toolkit — lighter fluid, matches</div><span class="check-tag tag-gear">Gear</span></div>
+      </div>
+      <div class="check-item" onclick="toggle(this,'culinary')">
+        <div class="check-box"><span class="check-tick">✓</span></div>
+        <div><div class="check-label">Prep Kitchen Knives — <strong style="color:var(--gold)">2</strong> sharp chef knives</div><span class="check-tag tag-gear">Gear</span></div>
+      </div>
+      <div class="check-item" onclick="toggle(this,'culinary')">
+        <div class="check-box"><span class="check-tick">✓</span></div>
+        <div><div class="check-label">Chopping Boards — <strong style="color:var(--gold)">2</strong> large heavy-duty boards</div><span class="check-tag tag-gear">Gear</span></div>
+      </div>
+      <div class="check-item" onclick="toggle(this,'culinary')">
+        <div class="check-box"><span class="check-tick">✓</span></div>
+        <div><div class="check-label">Mixing Vessels — deep bowls for Buko juice</div><span class="check-tag tag-gear">Gear</span></div>
+      </div>
+      <div class="check-item" onclick="toggle(this,'culinary')">
+        <div class="check-box"><span class="check-tick">✓</span></div>
+        <div><div class="check-label">Airtight Tupperware — leftover food storage</div><span class="check-tag tag-gear">Gear</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-card" id="sec-infrastructure">
+    <div class="section-header" onclick="toggleSection('sec-infrastructure')">
+      <div class="section-icon blue">⛺</div>
+      <div style="flex:1">
+        <div class="section-title">Camp Infrastructure</div>
+        <div class="section-meta">Power, lighting & medical</div>
+      </div>
+      <div class="section-counter" id="count-infrastructure">0/5</div>
+      <span class="chevron">▾</span>
+    </div>
+    <div class="section-body">
+      <div class="check-item" onclick="toggle(this,'infrastructure')">
+        <div class="check-box"><span class="check-tick">✓</span></div>
+        <div><div class="check-label">Beachfront Tents — <strong style="color:var(--gold)">1–2 units</strong></div><span class="check-tag tag-gear">Gear</span></div>
+      </div>
+      <div class="check-item" onclick="toggle(this,'infrastructure')">
+        <div class="check-box"><span class="check-tick">✓</span></div>
+        <div><div class="check-label">Extension Cords — <strong style="color:var(--gold)">2</strong> heavy-duty with power strips</div><span class="check-tag tag-gear">Gear</span></div>
+      </div>
+      <div class="check-item" onclick="toggle(this,'infrastructure')">
+        <div class="check-box"><span class="check-tick">✓</span></div>
+        <div><div class="check-label">Charging Station Hub — multi-port power banks</div><span class="check-tag tag-gear">Gear</span></div>
+      </div>
+      <div class="check-item" onclick="toggle(this,'infrastructure')">
+        <div class="check-box"><span class="check-tick">✓</span></div>
+        <div><div class="check-label">Rechargeable LED Lanterns — <strong style="color:var(--gold)">2</strong> bright units</div><span class="check-tag tag-gear">Gear</span></div>
+      </div>
+      <div class="check-item" onclick="toggle(this,'infrastructure')">
+        <div class="check-box"><span class="check-tick">✓</span></div>
+        <div><div class="check-label">Medical First-Aid Kit <span style="color:var(--text-muted);font-size:11px">(paracetamol, antihistamines, stomach meds, alcohol, band-aids)</span></div><span class="check-tag tag-gear">Medical</span></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ==================== CASH TAB ==================== -->
+<div class="tab-content" id="tab-cash">
+
+  <div style="font-family:'Pacifico',cursive;font-size:18px;color:var(--gold);margin-bottom:4px;">Central Bank Vault 🏦</div>
+  <div style="font-size:12px;color:var(--text-muted);margin-bottom:18px;">Withdraw in crisp bills before the trip</div>
+
+  <div class="cash-card">
+    <div class="cash-card-title">Milestone Gift #1</div>
+    <div class="cash-amount">₱4,000</div>
+    <div class="cash-purpose">For the <strong style="color:var(--gold)">Money Cake</strong> pull ribbon mechanism — crisp bills folded and inserted inside the custom cake shell</div>
+  </div>
+
+  <div class="cash-card">
+    <div class="cash-card-title">Milestone Gift #2</div>
+    <div class="cash-amount">₱5,000</div>
+    <div class="cash-purpose">For the <strong style="color:var(--gold)">Custom Money Bouquet</strong> — premium floral arrangement engineered with cash inserts</div>
+  </div>
+
+  <div class="cash-card">
+    <div class="cash-card-title">Milestone Gift #3</div>
+    <div class="cash-amount">₱5,000</div>
+    <div class="cash-purpose">For the <strong style="color:var(--gold)">Presentation Wallet</strong> — genuine leather wallet, cash compartment loaded for reveal</div>
+  </div>
+
+  <div class="cash-divider" style="margin:4px 0 16px;"></div>
+
+  <div class="cash-card" style="border-color:rgba(232,96,76,0.3)">
+    <div class="cash-total-row">
+      <div>
+        <div class="cash-card-title">Total Cash to Withdraw</div>
+        <div class="cash-total-amount">₱14,000</div>
+      </div>
+      <div style="text-align:right">
+        <div style="font-size:11px;color:var(--text-muted);">3 gift items</div>
+        <div style="font-size:11px;color:var(--coral);margin-top:2px;">Crisp bills only</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="background:rgba(244,164,53,0.08);border:1px solid rgba(244,164,53,0.2);border-radius:12px;padding:14px;margin-top:4px;">
+    <div style="font-size:12px;color:var(--gold);font-weight:600;margin-bottom:6px;">💡 Pro tip</div>
+    <div style="font-size:12px;color:var(--text-muted);line-height:1.6;">Visit the bank a day or two before the trip. Request crisp, sequential bills — they fold and fan out much more beautifully in the bouquet and cake pull mechanism.</div>
+  </div>
+
+</div>
+
+<!-- ==================== PROGRESS TAB ==================== -->
+<div class="tab-content" id="tab-progress">
+  <div class="progress-ring-wrap">
+    <div class="ring-container">
+      <svg width="140" height="140" viewBox="0 0 140 140">
+        <circle cx="70" cy="70" r="58" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="10"/>
+        <circle id="ringFill" cx="70" cy="70" r="58" fill="none" stroke="url(#ringGrad)" stroke-width="10"
+          stroke-linecap="round" stroke-dasharray="364" stroke-dashoffset="364" style="transition:stroke-dashoffset 0.5s ease"/>
+        <defs>
+          <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#f4a435"/>
+            <stop offset="100%" stop-color="#e8604c"/>
+          </linearGradient>
+        </defs>
+      </svg>
+      <div class="ring-text">
+        <div class="ring-pct" id="ringPct">0%</div>
+        <div class="ring-label">packed</div>
+      </div>
+    </div>
+
+    <div class="progress-section-list">
+      <div class="prog-row" id="prog-catering">
+        <div class="prog-row-top">
+          <div class="prog-row-name">🍱 Catering</div>
+          <div class="prog-row-count" id="pcount-catering">0/5</div>
+        </div>
+        <div class="prog-mini-bar"><div class="prog-mini-fill" id="pbar-catering" style="width:0%"></div></div>
+      </div>
+      <div class="prog-row" id="prog-wetmarket">
+        <div class="prog-row-top">
+          <div class="prog-row-name">🥩 Wet Market</div>
+          <div class="prog-row-count" id="pcount-wetmarket">0/12</div>
+        </div>
+        <div class="prog-mini-bar"><div class="prog-mini-fill" id="pbar-wetmarket" style="width:0%"></div></div>
+      </div>
+      <div class="prog-row" id="prog-grocery">
+        <div class="prog-row-top">
+          <div class="prog-row-name">🏪 Grocery</div>
+          <div class="prog-row-count" id="pcount-grocery">0/10</div>
+        </div>
+        <div class="prog-mini-bar"><div class="prog-mini-fill" id="pbar-grocery" style="width:0%"></div></div>
+      </div>
+      <div class="prog-row" id="prog-specialty">
+        <div class="prog-row-top">
+          <div class="prog-row-name">🎁 Specialty</div>
+          <div class="prog-row-count" id="pcount-specialty">0/4</div>
+        </div>
+        <div class="prog-mini-bar"><div class="prog-mini-fill" id="pbar-specialty" style="width:0%"></div></div>
+      </div>
+      <div class="prog-row" id="prog-culinary">
+        <div class="prog-row-top">
+          <div class="prog-row-name">🔪 Culinary Gear</div>
+          <div class="prog-row-count" id="pcount-culinary">0/10</div>
+        </div>
+        <div class="prog-mini-bar"><div class="prog-mini-fill" id="pbar-culinary" style="width:0%"></div></div>
+      </div>
+      <div class="prog-row" id="prog-infrastructure">
+        <div class="prog-row-top">
+          <div class="prog-row-name">⛺ Camp Infra</div>
+          <div class="prog-row-count" id="pcount-infrastructure">0/5</div>
+        </div>
+        <div class="prog-mini-bar"><div class="prog-mini-fill" id="pbar-infrastructure" style="width:0%"></div></div>
+      </div>
+    </div>
+
+    <div class="all-done" id="allDoneMsg">
+      <div class="all-done-emoji">🎉</div>
+      <div class="all-done-text">Handa na tayo!</div>
+      <div class="all-done-sub">All items packed. See you at the beach!</div>
+    </div>
+
+    <button onclick="clearAll()" style="margin-top:20px;background:rgba(232,96,76,0.1);border:1px solid rgba(232,96,76,0.3);color:var(--coral);border-radius:10px;padding:10px 24px;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;width:100%;">
+      Reset All Checkboxes
+    </button>
+  </div>
+</div>
+
+<!-- FLOAT BANNER -->
+<div class="float-banner" id="floatBanner">
+  <span id="floatCount">0</span> items remaining
+</div>
+
+<!-- BOTTOM NAV -->
+<div class="bottom-nav">
+  <button class="tab-btn active" id="nav-pantry" onclick="switchTab('pantry',this)">
+    <span class="tab-icon">🛒</span><span>Pantry</span>
+  </button>
+  <button class="tab-btn" id="nav-kitchen" onclick="switchTab('kitchen',this)">
+    <span class="tab-icon">🍽️</span><span>Kitchen</span>
+  </button>
+  <button class="tab-btn" id="nav-camp" onclick="switchTab('camp',this)">
+    <span class="tab-icon">🏕️</span><span>Camp</span>
+  </button>
+  <button class="tab-btn" id="nav-cash" onclick="switchTab('cash',this)">
+    <span class="tab-icon">💸</span><span>Cash</span>
+  </button>
+  <button class="tab-btn" id="nav-progress" onclick="switchTab('progress',this)">
+    <span class="tab-icon">✅</span><span>Progress</span>
+  </button>
+</div>
+
+<script>
+const SECTIONS = {
+  catering: 5, wetmarket: 12, grocery: 10, specialty: 4, culinary: 10, infrastructure: 5
+};
+const state = {};
+Object.keys(SECTIONS).forEach(k => state[k] = 0);
+
+function loadState() {
+  try {
+    const saved = localStorage.getItem('buenosaires_v1');
+    if (!saved) return;
+    const data = JSON.parse(saved);
+    const items = document.querySelectorAll('.check-item');
+    items.forEach((item, i) => {
+      if (data[i]) {
+        const box = item.querySelector('.check-box');
+        const lbl = item.querySelector('.check-label');
+        box.classList.add('checked');
+        lbl.classList.add('checked');
+      }
+    });
+    recalcAll();
+  } catch(e) {}
+}
+
+function saveState() {
+  const items = document.querySelectorAll('.check-item');
+  const data = {};
+  items.forEach((item, i) => {
+    data[i] = item.querySelector('.check-box').classList.contains('checked');
+  });
+  try { localStorage.setItem('buenosaires_v1', JSON.stringify(data)); } catch(e) {}
+}
+
+function toggle(el, section) {
+  const box = el.querySelector('.check-box');
+  const lbl = el.querySelector('.check-label');
+  const wasChecked = box.classList.contains('checked');
+  box.classList.toggle('checked');
+  lbl.classList.toggle('checked');
+  if (!wasChecked) spawnParticle(el);
+  recalcAll();
+  saveState();
+}
+
+function recalcAll() {
+  const totals = {};
+  Object.keys(SECTIONS).forEach(k => totals[k] = 0);
+
+  const items = document.querySelectorAll('.check-item');
+  items.forEach(item => {
+    const fn = item.getAttribute('onclick');
+    const match = fn && fn.match(/'([^']+)'\)/);
+    if (!match) return;
+    const sec = match[1];
+    if (item.querySelector('.check-box').classList.contains('checked')) {
+      totals[sec] = (totals[sec] || 0) + 1;
+    }
+  });
+
+  let totalDone = 0, totalAll = 0;
+  Object.keys(SECTIONS).forEach(sec => {
+    const done = totals[sec] || 0;
+    const all = SECTIONS[sec];
+    totalDone += done;
+    totalAll += all;
+
+    const counter = document.getElementById('count-' + sec);
+    if (counter) {
+      counter.textContent = done + '/' + all;
+      counter.className = 'section-counter' + (done === all && all > 0 ? ' done' : '');
+    }
+    const pcount = document.getElementById('pcount-' + sec);
+    if (pcount) pcount.textContent = done + '/' + all;
+    const pbar = document.getElementById('pbar-' + sec);
+    if (pbar) pbar.style.width = (all > 0 ? Math.round(done/all*100) : 0) + '%';
+  });
+
+  const pct = totalAll > 0 ? Math.round(totalDone / totalAll * 100) : 0;
+  const remaining = totalAll - totalDone;
+
+  document.getElementById('mainProgress').style.width = pct + '%';
+  document.getElementById('progressLabel').textContent = totalDone + ' of ' + totalAll + ' items packed';
+  document.getElementById('headerBadge').textContent = totalDone + ' done';
+  document.getElementById('ringPct').textContent = pct + '%';
+  document.getElementById('ringFill').style.strokeDashoffset = 364 - (364 * pct / 100);
+
+  const fb = document.getElementById('floatBanner');
+  const floatCount = document.getElementById('floatCount');
+  floatCount.textContent = remaining;
+  fb.style.display = remaining > 0 ? 'block' : 'none';
+
+  const allDone = document.getElementById('allDoneMsg');
+  allDone.style.display = pct === 100 ? 'block' : 'none';
+}
+
+function toggleSection(id) {
+  const card = document.getElementById(id);
+  card.classList.toggle('open');
+}
+
+function toggleRecipe(id) {
+  const card = document.getElementById(id);
+  card.classList.toggle('open');
+}
+
+function switchTab(name, btn) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  document.querySelectorAll('.tab-btn').forEach(b => {
+    if (b.getAttribute('onclick') && b.getAttribute('onclick').includes("'" + name + "'")) {
+      b.classList.add('active');
+    }
+  });
+}
+
+function clearAll() {
+  if (!confirm('Reset all checkboxes?')) return;
+  document.querySelectorAll('.check-box').forEach(b => b.classList.remove('checked'));
+  document.querySelectorAll('.check-label').forEach(l => l.classList.remove('checked'));
+  recalcAll();
+  saveState();
+}
+
+const EMOJIS = ['🎉','✨','🥂','🌴','🏖️','🎊','⭐','🔥'];
+function spawnParticle(el) {
+  const rect = el.getBoundingClientRect();
+  const p = document.createElement('div');
+  p.className = 'particle';
+  p.textContent = EMOJIS[Math.floor(Math.random() * EMOJIS.length)];
+  p.style.left = (rect.left + Math.random() * 40) + 'px';
+  p.style.top = (rect.top - 10) + 'px';
+  document.body.appendChild(p);
+  setTimeout(() => p.remove(), 1000);
+}
+
+loadState();
+recalcAll();
+</script>
+</body>
+</html>
